@@ -30,7 +30,10 @@ class ServicioReservas:
 
         reserva = Reserva(
             self._siguiente_id,
-            date.today()
+            date.today(),
+            estudiante,
+            horario,
+            asignatura
         )
 
         self._siguiente_id += 1
@@ -64,6 +67,6 @@ class ServicioReservas:
         if not nuevo_horario.esta_disponible():
             raise ValueError("El nuevo horario no está disponible.")
 
-        reserva.reprogramar()
+        reserva.reprogramar(nuevo_horario)
         nuevo_horario.reservar()
         self._repositorio.actualizar(reserva)

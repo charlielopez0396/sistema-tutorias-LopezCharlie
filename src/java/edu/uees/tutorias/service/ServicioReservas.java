@@ -36,7 +36,10 @@ public class ServicioReservas {
 
         Reserva reserva = new Reserva(
             siguienteId,
-            LocalDate.now()
+            LocalDate.now(),
+            estudiante,
+            horario,
+            asignatura
         );
 
         siguienteId++;
@@ -71,7 +74,7 @@ public class ServicioReservas {
             );
         }
 
-        reserva.reprogramar();
+        reserva.reprogramar(nuevoHorario);
         nuevoHorario.reservar();
         repositorio.actualizar(reserva);
     }
