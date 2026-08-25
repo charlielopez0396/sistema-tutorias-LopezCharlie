@@ -108,10 +108,11 @@ class NotificadorEmail {
   + enviar(destinatario: String, mensaje: String): void
 }
 
-class RepositorioMySQL {
-  + guardar(reserva: Reserva): void
-  + buscar(id: int): Reserva
-  + actualizar(reserva: Reserva): void
+class RepositorioReservasMemoria {
+    - reservas: dict
+    + guardar(reserva: Reserva): void
+    + buscar(id: int): Reserva
+    + actualizar(reserva: Reserva): void
 }
 
 ' =========================
@@ -137,7 +138,7 @@ Reserva --> EstadoReserva : estado
 ' =========================
 
 Notificador <|.. NotificadorEmail
-RepositorioReservas <|.. RepositorioMySQL
+RepositorioReservas <|.. RepositorioReservasMemoria
 
 ' =========================
 ' DEPENDENCIAS
