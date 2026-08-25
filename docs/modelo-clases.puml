@@ -1,0 +1,150 @@
+@startuml
+
+
+title Sistema de Gestión de Tutorías - Diagrama de Clases
+
+skinparam classAttributeIconSize 0
+
+' =========================
+' USUARIOS
+' =========================
+
+abstract class Usuario {
+  - id: int
+  - nombre: String
+  - correo: String
+  --
+  + obtenerPerfil(): String
+}
+
+class Estudiante {
+  - carrera: String
+  --
+  + solicitarTutoria(): void
+  + cancelarReserva(): void
+}
+
+class Docente {
+  - departamento: String
+  --
+  + publicarHorario(): void
+  + consultarHorarios(): void
+}
+
+' =========================
+' DOMINIO
+' =========================
+
+class Asignatura {
+  - id: int
+  - nombre: String
+  - descripcion: String
+  --
+  + consultarInformacion(): String
+}
+
+class HorarioTutoria {
+  - id: int
+  - fecha: Date
+  - horaInicio: Time
+  - horaFin: Time
+  - disponible: boolean
+  --
+  + reservar(): void
+  + liberar(): void
+  + estaDisponible(): boolean
+}
+
+enum EstadoReserva {
+  PENDIENTE
+  CONFIRMADA
+  CANCELADA
+  REALIZADA
+}
+
+class Reserva {
+  - id: int
+  - estado: EstadoReserva
+  - fechaReserva: Date
+  --
+  + confirmar(): void
+  + cancelar(): void
+  + reprogramar(): void
+  + marcarRealizada(): void
+}
+
+' =========================
+' SERVICIO
+' =========================
+
+class ServicioReservas {
+  - repositorio: RepositorioReservas
+  - notificador: Notificador
+  --
+  + reservar(estudiante: Estudiante, horario: HorarioTutoria, asignatura: Asignatura): Reserva
+  + cancelar(reserva: Reserva): void
+  + reprogramar(reserva: Reserva, nuevoHorario: HorarioTutoria): void
+}
+
+' =========================
+' INTERFACES
+' =========================
+
+interface Notificador {
+  + enviar(destinatario: String, mensaje: String): void
+}
+
+interface RepositorioReservas {
+  + guardar(reserva: Reserva): void
+  + buscar(id: int): Reserva
+  + actualizar(reserva: Reserva): void
+}
+
+' =========================
+' IMPLEMENTACIONES
+' =========================
+
+class NotificadorEmail {
+  + enviar(destinatario: String, mensaje: String): void
+}
+
+class RepositorioMySQL {
+  + guardar(reserva: Reserva): void
+  + buscar(id: int): Reserva
+  + actualizar(reserva: Reserva): void
+}
+
+' =========================
+' HERENCIA
+' =========================
+
+Usuario <|-- Estudiante
+Usuario <|-- Docente
+
+' =========================
+' ASOCIACIONES
+' =========================
+
+Estudiante "1" -- "0..*" Reserva : realiza >
+Docente "1" -- "0..*" HorarioTutoria : publica >
+HorarioTutoria "1" -- "0..1" Reserva : utiliza
+Asignatura "1" -- "0..*" Reserva : corresponde a
+
+Reserva --> EstadoReserva : estado
+
+' =========================
+' REALIZACION DE INTERFACES
+' =========================
+
+Notificador <|.. NotificadorEmail
+RepositorioReservas <|.. RepositorioMySQL
+
+' =========================
+' DEPENDENCIAS
+' =========================
+
+ServicioReservas ..> Reserva : coordina
+ServicioReservas --> Notificador : utiliza
+ServicioReservas --> RepositorioReservas : utiliza
+
+@enduml
