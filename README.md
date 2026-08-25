@@ -77,6 +77,12 @@ Esta separación ayuda a mantener el código más organizado y facilita futuras 
 
 Así, la lógica principal de las reservas no queda ligada a una tecnología determinada de notificación o almacenamiento.
 
+## Repositorio
+
+El código fuente, el diagrama UML y la documentación del proyecto se encuentran disponibles en el siguiente repositorio de GitHub:
+
+[Repositorio del Sistema de Gestión de Tutorías](https://github.com/charlielopez0396/sistema-tutorias-LopezCharlie)
+
 ## Diagrama UML
 
 El diagrama UML del proyecto se encuentra en:
