@@ -9,3 +9,6 @@ venv/
 # Configuración de editores
 .vscode/
 .idea/
+# Archivos compilados de Java
+out/
+*.class
